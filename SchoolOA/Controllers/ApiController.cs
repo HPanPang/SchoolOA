@@ -97,12 +97,12 @@ namespace SchoolOA.Controllers
                 msg = "奖惩信息",
                 count = awardPunishList.Count,
                 data = showAwardPunishList
-            }); 
+            });
         }
         public object ShowAwardPunishList(int id)
         {
             var awardPunishDetail = indexservice.QueryAwardPunishDetail(id);
-            if(awardPunishDetail.punishContent==null)
+            if (awardPunishDetail.punishContent == null)
             {
                 return Json(new
                 {
@@ -113,21 +113,21 @@ namespace SchoolOA.Controllers
             }
             return Json(new
             {
-                code =1,
-                msg="惩罚信息",
+                code = 1,
+                msg = "惩罚信息",
                 punishDetail = awardPunishDetail
             });
         }
 
-        public object ShowAwardList (int id)
+        public object ShowAwardList(int id)
         {
             var awardDetail = zhenjiaoservice.QueryAwardDetail(id);
-            if (awardDetail==null || id == 0)
+            if (awardDetail == null || id == 0)
             {
                 return Json(new
                 {
                     code = 270,
-                    msg ="错误请求"
+                    msg = "错误请求"
                 });
             }
             return Json(new
@@ -155,15 +155,15 @@ namespace SchoolOA.Controllers
                 award = punishDetail,
             });
         }
-        public object AwardList(int page,int limit)
+        public object AwardList(int page, int limit)
         {
             var awardDetail = zhenjiaoservice.QueryAllAwardDetail();
             var showAwardDetail = awardDetail.Skip((page - 1) * limit).Take(limit);
-            
+
             return Json(new
             {
                 code = 0,
-                msg ="所有奖励信息",
+                msg = "所有奖励信息",
                 count = awardDetail.Count,
                 data = showAwardDetail,
             });
@@ -180,7 +180,7 @@ namespace SchoolOA.Controllers
                 data = showPunishDetail,
             });
         }
-        public object SubmitHandleAwardPunish(int id,string issue,string state)
+        public object SubmitHandleAwardPunish(int id, string issue, string state)
         {
             bool isSuccess = zhenjiaoservice.UpdateAwardPunish(id, issue, state);
             var updateDate = zhenjiaoservice.QueryPunishDetail(id);
@@ -250,41 +250,68 @@ namespace SchoolOA.Controllers
 
 
         //教职工信息
-        public object QueryAllTeacher(int page,int limit)
+        public object QueryAllTeacher(int page, int limit)
         {
             var allTeacher = zhenjiaoservice.QueryAllTeacher();
             var showAllTeacher = allTeacher.Skip((page - 1) * limit).Take(limit);
-            return Json(new
+            if(allTeacher.Count == 0)
             {
-                code = 0,
-                msg = "教职工信息",
-                count = allTeacher.Count,
-                data = showAllTeacher,
-            });
+                return Json(new
+                {
+                    code = 0,
+                    msg = "数据异常"
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    code = 0,
+                    msg = "教职工信息",
+                    count = allTeacher.Count,
+                    data = showAllTeacher,
+                });
+            }
         }
 
         public object QueryBySection(string section)
         {
+            if (section == null)
+            {
+                return Json(new
+                {
+                    code = 280,
+                    msg = "key值为空,需要所有的数据",
+                });
+            }
             var teacherFilterBySection = zhenjiaoservice.QueryTeacherBySection(section);
             if (teacherFilterBySection == null)
             {
                 return Json(new
                 {
                     code = 270,
-                    msg="数据不存在"
+                    msg = "数据不存在"
                 });
             }
             return Json(new
             {
                 code = 200,
-                msg="部门筛选信息",
+                msg = "部门筛选信息",
                 data = teacherFilterBySection
             });
         }
 
-        public object QueryTeacher(string type,string key)
+        public object QueryTeacher(string type, string key)
         {
-            List<TeacherDetail> teacherList = new List<TeacherDetail>();        
+            if (key == null)
+            {
+                return Json(new
+                {
+                    code = 280,
+                    msg = "key值为空,需要所有的数据",
+                });
+            }
+            List<TeacherDetail> teacherList = new List<TeacherDetail>();
             if (type == "教师工号")
             {
                 var teacher = zhenjiaoservice.QueryTeacherById(key);
@@ -298,12 +325,12 @@ namespace SchoolOA.Controllers
                 }
                 else
                     teacherList.Add(teacher);
-                    return Json(new
-                    {
-                        code = 200,
-                        msg = "查询教职工信息成功",
-                        data = teacherList
-                    });
+                return Json(new
+                {
+                    code = 200,
+                    msg = "查询教职工信息成功",
+                    data = teacherList
+                });
             }
             else
             {
@@ -323,6 +350,30 @@ namespace SchoolOA.Controllers
                         msg = "查询教职工信息成功",
                         data = teacher
                     });
+            }
+        }
+
+        public object QueryAllMaterialApply(int page, int limit)
+        {
+            var materialApplyList = zhenjiaoservice.QueryMaterialDetail();
+            var showMaterialApplyList = materialApplyList.Skip((page - 1) * limit).Take(limit);
+            if (materialApplyList.Count == 0)
+            {
+                return Json(new
+                {
+                    code = 270,
+                    msg = "数据异常"
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    code = 200,
+                    msg = "查询成功",
+                    count = materialApplyList.Count,
+                    data = showMaterialApplyList,
+                });
             }
         }
     }

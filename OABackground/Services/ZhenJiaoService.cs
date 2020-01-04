@@ -61,7 +61,7 @@ namespace OABackground.Services
         public string Tname;
         public string Sex;
         public string Profession;
-        public DateTime entryTime;
+        public string entryTime;
         public string sectionName;
         public string Phone;
     }
@@ -338,7 +338,7 @@ namespace OABackground.Services
                     Profession = list[i].Profession,
                     sectionName = section.Name,
                     Phone = list[i].Phone,
-                    entryTime = list[i].EntryTime
+                    entryTime = list[i].EntryTime.ToString().Replace('T', ' '),
                 };
                 teacherList.Add(teacher);
             }
@@ -364,7 +364,7 @@ namespace OABackground.Services
             var list = QueryAllTeacher();
             for (int i = 0; i < list.Count; i++)
             {
-                if (list[i].Tname == name)
+                if (list[i].Tname.Equals(name))
                 {
                     teacherList.Add(list[i]);
                 }

@@ -6,4 +6,3 @@ F:\Xauat-Computer\生产实习\SchoolOA\OABackground\obj\Debug\netstandard2.0\OA
 F:\Xauat-Computer\生产实习\SchoolOA\OABackground\obj\Debug\netstandard2.0\OABackground.AssemblyInfo.cs
 F:\Xauat-Computer\生产实习\SchoolOA\OABackground\obj\Debug\netstandard2.0\OABackground.dll
 F:\Xauat-Computer\生产实习\SchoolOA\OABackground\obj\Debug\netstandard2.0\OABackground.pdb
-F:\Xauat-Computer\生产实习\SchoolOA\OABackground\obj\Debug\netstandard2.0\OABackground.csprojAssemblyReference.cache
