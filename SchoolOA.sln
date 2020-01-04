@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolOA", "SchoolOA\SchoolOA.csproj", "{E875CB75-3FD6-430A-BFF5-BDB12318501D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OABackground", "OABackground\OABackground.csproj", "{28ED4732-F9B2-4ECB-90BE-1DDEBDF04AC5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E875CB75-3FD6-430A-BFF5-BDB12318501D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E875CB75-3FD6-430A-BFF5-BDB12318501D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E875CB75-3FD6-430A-BFF5-BDB12318501D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E875CB75-3FD6-430A-BFF5-BDB12318501D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28ED4732-F9B2-4ECB-90BE-1DDEBDF04AC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28ED4732-F9B2-4ECB-90BE-1DDEBDF04AC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28ED4732-F9B2-4ECB-90BE-1DDEBDF04AC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28ED4732-F9B2-4ECB-90BE-1DDEBDF04AC5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DA7C71CC-141C-4170-8358-ABF458313486}
+	EndGlobalSection
+EndGlobal

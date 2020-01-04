@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>@ViewData["Title"] </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="~/layui-v2.5.5/layui/css/layui.css" media="all">
+</head>
+@*<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>layout 政教处 - Layui</title>
+        <link rel="stylesheet" href="~/layui/css/layui.css">
+    </head>*@
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <header>
+            <div class="layui-header">
+                <div class="layui-logo">政教处</div>
+                <!-- 头部区域（可配合layui已有的水平导航） -->
+
+                <span class="layui-nav-bar" style="left: 133.5px; top: 55px; width: 0px; opacity: 0;"></span>
+                <ul class="layui-nav layui-layout-right">
+                    <li class="layui-nav-item"><a href="/Home/index">退出</a></li>
+                </ul>
+                <span class="layui-nav-bar" style="left: 165.891px; top: 55px; width: 0px; opacity: 0;"></span>
+            </div>
+        </header>
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+
+                    <li class="layui-nav-item"><a href="/ZJC/Index">主界面</a></li>
+                    <li class="layui-nav-item"><a href="/ZJC/CommitPlan">提交工作计划</a></li>
+                    <li class="layui-nav-item"><a href="/ZJC/HandleStudents">处理学生奖惩</a></li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">文档管理<span class="layui-nav-more"></span></a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="/ZJC/SearchTeacher">教职工信息查询</a></dd>
+                            <dd><a href="/ZJC/DocManager">文件管理</a></dd>
+                        </dl>
+                    </li>
+
+                </ul>
+                <span class="layui-nav-bar"></span>
+            </div>
+        </div>
+
+        <div class="layui-body">
+                @RenderBody()
+         </div>
+         </div>
+    <script src="~/layui-v2.5.5/layui/layui.all.js" charset="utf-8"></script>
+    <script>
+        //JavaScript代码区域
+        layui.use('element', function () {
+            var element = layui.element;
+
+        });
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?d214947968792b839fd669a4decaaffc";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+    <div id="qb-sougou-search" style="display: none; opacity: 0;"><p>搜索</p><p class="last-btn">复制</p><iframe src=""></iframe></div>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

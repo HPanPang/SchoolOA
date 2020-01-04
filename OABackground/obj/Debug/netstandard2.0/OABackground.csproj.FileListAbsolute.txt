@@ -1,0 +1,9 @@
+F:\Xauat-Computer\生产实习\SchoolOA\OABackground\bin\Debug\netstandard2.0\OABackground.deps.json
+F:\Xauat-Computer\生产实习\SchoolOA\OABackground\bin\Debug\netstandard2.0\OABackground.dll
+F:\Xauat-Computer\生产实习\SchoolOA\OABackground\bin\Debug\netstandard2.0\OABackground.pdb
+F:\Xauat-Computer\生产实习\SchoolOA\OABackground\obj\Debug\netstandard2.0\OABackground.csproj.CoreCompileInputs.cache
+F:\Xauat-Computer\生产实习\SchoolOA\OABackground\obj\Debug\netstandard2.0\OABackground.AssemblyInfoInputs.cache
+F:\Xauat-Computer\生产实习\SchoolOA\OABackground\obj\Debug\netstandard2.0\OABackground.AssemblyInfo.cs
+F:\Xauat-Computer\生产实习\SchoolOA\OABackground\obj\Debug\netstandard2.0\OABackground.dll
+F:\Xauat-Computer\生产实习\SchoolOA\OABackground\obj\Debug\netstandard2.0\OABackground.pdb
+F:\Xauat-Computer\生产实习\SchoolOA\OABackground\obj\Debug\netstandard2.0\OABackground.csprojAssemblyReference.cache

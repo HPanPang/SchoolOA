@@ -1,0 +1,90 @@
+﻿@{
+    Layout = "_EmptyLayout";
+    ViewData["Title"] = "Login";
+}
+<form class="layui-form layui-form-pane" action="" lay-filter="example" style="margin-top: 70px;margin-left: 100px;margin-right:20px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="username" id="username" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-inline">
+            <input type="password" name="password" id="password" placeholder="请输入密码" lay-verify="required" lay-reqtext="密码是必填项，岂能为空？" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-block">
+            <input type="radio" name="type" value="js" title="教师" checked="">
+            <input type="radio" name="type" value="zjc" title="政教处">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="radio" name="type" value="xz" title="校长">
+            <input type="radio" name="type" value="cwc" title="财务处">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" id="btn" onclick="Login()" lay-submit="" lay-filter="login">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+</form>
+@section Scripts{
+    <script src="~/layui-v2.5.5/layui/layui.js" charset="utf-8"></script>
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/md5.js"></script>
+    <script type="text/javascript">
+        $("#btn").click(function (event) {
+            event.preventDefault()
+        })
+    </script>
+    <script type="text/javascript">
+        layui.use(['form'], function () {
+            var form = layui.form
+                , layer = layui.layer;
+            form.on('submit(login)', function (data) {
+                var username = data.field.username;
+                var password = md5(data.field.password);
+                var type = data.field.type;
+                //加载层-风格4
+                layer.msg('登录中', {
+                    icon: 16
+                    , shade: 0.01
+                    , time:5000
+                });
+                $.ajax({
+                    url: '/Api/LogInJudge',
+                    data: { username: username, password: password, type: type },
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (data) {
+                        var typeUpper = type.toUpperCase();
+                        switch (data.code) {
+                            case 200:
+                                //layer.alert(data.msg, { icon: 1 });
+                                window.open('/' + typeUpper);
+                                parent.layer.closeAll();
+                                parent.window.close();
+                                break;
+                            case 270:
+                            case 100:
+                            case 210:
+                                layer.alert(data.msg, { icon: 2 });
+                                break;
+                            default:
+                                layer.alert("我也不知道怎么了，你再试试呗", { icon: 3 });
+                        }
+                    }
+                })
+
+            });
+        });
+    </script>
+}

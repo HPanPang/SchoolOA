@@ -1,0 +1,101 @@
+﻿@{
+    Layout = "_EmptyLayout";
+    ViewData["Title"] = "奖惩详细信息";
+}
+    <form class="layui-form layui-form-pane" action="" lay-filter="ShowAwardPunish" style="margin:15px 20px">
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" lay-verify="title" autocomplete="off" class="layui-input" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">学号</label>
+            <div class="layui-input-block">
+                <input type="text" name="sid" lay-verify="title" autocomplete="off" class="layui-input" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">年级</label>
+            <div class="layui-input-block">
+                <input type="text" name="grade" autocomplete="off" class="layui-input" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">班级</label>
+            <div class="layui-input-block">
+                <input type="text" name="studentClass" autocomplete="off" class="layui-input" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block">
+                <input type="text" name="sex" autocomplete="off" class="layui-input" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">详细信息</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="content" disabled></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">具体措施</label> 
+            <div class="layui-input-block">
+                <input type="text" name="desc" autocomplete="off" class="layui-input" disabled>
+            </div>
+        </div>
+
+    </form>
+@section Scripts{
+    <script src="~/layui-v2.5.5/layui/layui.js" charset="utf-8"></script>
+    <script src="~/js/jquery.js"></script>
+    <script type="text/javascript">
+
+    </script>
+    <script>
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                , awardData = ""
+                , punishData = "";
+            //表单赋值
+            $.ajax({
+            url: '/Api/ShowAwardPunishList',
+            data: { id: @ViewData["APID"] },
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+                switch (data.code) {
+                    case 0:
+                        awardData = data;
+                        form.val('ShowAwardPunish', {
+                            "name": awardData.awardDetail.studentName
+                            , "sid": awardData.awardDetail.sid
+                            , "grade": awardData.awardDetail.grade
+                            , "studentClass": awardData.awardDetail.studentClass 
+                            , "sex": awardData.awardDetail.sex
+                            , "content": awardData.awardDetail.content
+                            , "desc": awardData.awardDetail.awardContent
+                        });
+                        break;
+                    case 1:
+                        punishData = data;
+                        form.val('ShowAwardPunish', {
+                            "name": punishData.punishDetail.studentName
+                            , "sid": punishData.punishDetail.sid
+                            , "grade": punishData.punishDetail.grade
+                            , "studentClass": punishData.punishDetail.studentClass 
+                            , "sex": punishData.punishDetail.sex
+                            , "content": punishData.punishDetail.content
+                            , "desc": punishData.punishDetail.punishContent
+                        });
+                        break;
+                    default:
+                        layer.alert("数据异常，你再试试呗", { icon: 3 });
+                }
+            }
+            })
+        });
+    </script>
+}
