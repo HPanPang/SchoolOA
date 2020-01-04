@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Traveling HTML5 Template" />
+    <meta name="author" content="Design Hooks" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Raleway:400,700" rel="stylesheet" />
+    <link href="~/img/favicon.png" type="image/x-icon" rel="shortcut icon" />
+    <link href="~/css/screen.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/layui-v2.5.5/layui/css/layui.css" media="all">
+    <title>@ViewData["Title"] - SchoolOA</title>
+</head>
+<body class="home" id="page">
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html">
+                    <img src="img/site-identity.png" alt="site identity" />
+                </a>
+                <nav class="site-nav">
+                    <a onclick="logInPanel()" class="btn btn-special">登录</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="content-box">
+        @RenderBody()
+
+    </div>
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="widget widget_links">
+                        <h5 class="widget-title">走进校园</h5>
+                        <ul>
+                            <li><a href="#">领导班子</a></li>
+                            <li><a href="#">校长简介</a></li>
+                            <li><a href="#">规章制度</a></li>
+                            <li><a href="#">学校荣誉</a></li>
+                            <li><a href="#">办学理念</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="widget widget_links">
+                        <h5 class="widget-title">新闻中心</h5>
+                        <ul>
+                            <li><a href="#">校园新闻</a></li>
+                            <li><a href="#">校园视频</a></li>
+                            <li><a href="#">公开课</a></li>
+                            <li><a href="#">课题研究</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="widget widget_social">
+                        <h5 class="widget-title">订阅我们的信息</h5>
+                        <form class="subscribe-form">
+                            <div class="input-line">
+                                <input type="text" name="subscribe-email" value="" placeholder="Your email address" />
+                            </div>
+                            <button type="button" name="subscribe-submit" class="btn btn-special no-icon">订阅</button>
+                        </form>
+
+                        <ul class="clean-list social-block">
+                            <li>
+                                <a href="#"><i class="icon-chrome"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon-firefox"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon-IE"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="widget widget_links">
+                        <h5 class="widget-title">学生天地</h5>
+                        <ul>
+                            <li><a href="#">建大娇子</a></li>
+                            <li><a href="#">书香校园</a></li>
+                            <li><a href="#">学生作品</a></li>
+                            <li><a href="#">校园生活</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Scripts -->
+    @RenderSection("Scripts", required: false)
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/functions.js"></script>
+    <script type="text/javascript">
+        function logInPanel() {
+            layer.open({
+                type: 2,
+                area: ['530px', '400px'],
+                title: 'LogIn',
+                content: '/Home/LogIn',
+                resize: false
+            });
+        }
+    </script>
+    <script>
+    </script>
+</body>
+</html>

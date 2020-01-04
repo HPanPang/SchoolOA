@@ -1,0 +1,321 @@
+﻿@{
+    Layout = "_ZjcLayout";
+    ViewData["Title"] = "政教处";
+}
+
+<div class="layui-container">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>文件审核</legend>
+    </fieldset>
+
+    <div class="layui-row">
+        物资申请表
+        <div class="demoTable">
+            搜索审核状态：
+            <div class="layui-inline">
+                <input class="layui-input" name="keyword" id="demoReload" autocomplete="off">
+            </div>
+            <button class="layui-btn" data-type="reload">搜索</button>
+        </div>
+        <div class="demoTable">
+            输入所在部门：
+            <div class="layui-inline">
+                <input class="layui-input" name="keyword" id="demoReload2" autocomplete="off">
+            </div>
+            <button class="layui-btn" data-type="reload">搜索</button>
+        </div>
+        <table class="layui-hide" id="test" lay-filter="useruv"></table>
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">查看</a>
+            <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+        </script>
+        会议申请表
+        <div class="demoTable">
+            搜索审核状态：
+            <div class="layui-inline">
+                <input class="layui-input" name="keyword" id="demoReload1" autocomplete="off">
+            </div>
+            <button class="layui-btn" data-type="reload">搜索</button>
+        </div>
+
+        <table class="layui-hide" id="test1" lay-filter="useruv1"></table>
+        <script type="text/html" id="barDemo1">
+            <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">查看</a>
+            <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+        </script>
+
+
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/layui-v2.5.5/layui/layui.js" charset="utf-8"></script>
+    <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+
+    <script>
+        layui.use('table', function () {
+            var table = layui.table;
+
+            table.render({
+                elem: '#test'
+                , url: '/demo/table/user/'
+                , cols: [[
+                     { checkbox: true, fixed: true }
+                    ,{ field: 'id', width: 100, title: 'ID', sort: true }
+                    , { field: 'department_id', width: 100, title: '申请部门ID' }
+                    , { field: 'teacher_id', width: 100, title: '申请人员ID', }
+                    , { field: 'goods_name', width: 100, title: '物资名称' }
+                    , { field: 'goods_num', width: 100, title: '物资数量' }
+                    , { field: 'goods_price', width: 100, title: '物资单价' }
+                    , { field: 'status', width: 200, title: '当前状态：0-未处理1-同意2-拒绝' }
+                      , { field: 'Remarks', width: 200, title: '备注（申请理由等说明）' }
+                      ,{field:'right', title: '操作', width:177,toolbar:"#barDemo"}
+
+                ]]
+                , status: 'testReload'
+                   , department_id: 'testReload2'
+                , page: true
+                , height: 600
+            });
+
+              var $ = layui.$, active = {
+        reload: function(){
+            var demoReload = $('#demoReload');
+
+            table.reload('testReload', {
+                where: {
+                    keyword: demoReload.val()
+                }
+            });
+        }
+            };
+           //绑定click点击事件
+            $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+            });
+
+             var $ = layui.$, active = {
+        reload: function(){
+            var demoReload = $('#demoReload2');
+
+            table.reload('testReload2', {
+                where: {
+                    keyword: demoReload.val()
+                }
+            });
+        }
+            };
+
+
+           //绑定click点击事件
+            $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+});
+              //监听表格复选框选择
+        table.on('checkbox(useruv)', function(obj){
+            console.log(obj)
+        });
+        //监听工具条
+        table.on('tool(useruv)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                layer.msg('ID：'+ data.id + ' 的查看操作');
+            } else if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    console.log(data);
+                    $.ajax({
+                        url: "UVServlet",
+                        type: "POST",
+                        data:{"uvid":data.id,"memthodname":"deleteuv","aid":data.aid},
+                        dataType: "json",
+                        success: function(data){
+
+                            if(data.state==1){
+                                obj.del();
+                                layer.close(index);
+                                layer.msg("删除成功", {icon: 6});
+                            }else{
+                                layer.msg("删除失败", {icon: 5});
+                            }
+                        }
+
+                    });
+                });
+            } else if(obj.event === 'edit'){
+
+                layer.prompt({
+                    formType: 2
+                    ,title: '修改 ID 为 ['+ data.id +'] 的访问量'
+                    ,value: data.uv
+                }, function(value, index){
+                    EidtUv(data,value,index,obj);
+
+
+
+                });
+
+
+
+            }
+        });
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        function  EidtUv(data,value,index,obj) {
+            $.ajax({
+                url: "UVServlet",
+                type: "POST",
+                data:{"uvid":data.id,"memthodname":"edituv","aid":data.aid,"uv":value},
+                dataType: "json",
+                success: function(data){
+
+                    if(data.state==1){
+
+                        layer.close(index);
+                        //同步更新表格和缓存对应的值
+                        obj.update({
+                            uv: value
+                        });
+                        layer.msg("修改成功", {icon: 6});
+                    }else{
+                        layer.msg("修改失败", {icon: 5});
+                    }
+                }
+
+            });
+        }
+
+
+    });
+
+    </script>
+
+    <script>
+        layui.use('table', function () {
+            var table = layui.table;
+
+            table.render({
+                elem: '#test1'
+                , url: '/demo/table/user/'
+                , cols: [[
+                     { checkbox: true, fixed: true }
+                    ,{ field: 'id', width: 100, title: '会议编号'}
+                    , { field: 'startTime', width: 100, title: '会议开始时间',sort: true }
+                    , { field: 'endTime', width: 100, title: '会议结束时间',sort: true }
+                    , { field: 'conventionPlace', width: 100, title: '会议地点' }
+                    , { field: 'conventionState', title: '会议状态', width: 150,  }
+                      ,{field:'right', title: '操作', width:177,toolbar:"#barDemo1"}
+
+                ]]
+                 ,conventionState: 'testReload1'
+                , page: true
+                  , height: 600
+            });
+
+                     var $ = layui.$, active = {
+        reload: function(){
+            var demoReload = $('#demoReload1');
+
+            table.reload('testReload1', {
+                where: {
+                    keyword: demoReload.val()
+                }
+            });
+        }
+            };
+              //绑定click点击事件
+            $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+});
+
+              //监听表格复选框选择
+        table.on('checkbox(useruv1)', function(obj){
+            console.log(obj)
+        });
+        //监听工具条
+        table.on('tool(useruv1)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                layer.msg('ID：'+ data.id + ' 的查看操作');
+            } else if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    console.log(data);
+                    $.ajax({
+                        url: "UVServlet",
+                        type: "POST",
+                        data:{"uvid":data.id,"memthodname":"deleteuv","aid":data.aid},
+                        dataType: "json",
+                        success: function(data){
+
+                            if(data.state==1){
+                                obj.del();
+                                layer.close(index);
+                                layer.msg("删除成功", {icon: 6});
+                            }else{
+                                layer.msg("删除失败", {icon: 5});
+                            }
+                        }
+
+                    });
+                });
+            } else if(obj.event === 'edit'){
+
+                layer.prompt({
+                    formType: 2
+                    ,title: '修改 ID 为 ['+ data.id +'] 的访问量'
+                    ,value: data.uv
+                }, function(value, index){
+                    EidtUv(data,value,index,obj);
+
+
+
+                });
+
+
+
+            }
+        });
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        function  EidtUv(data,value,index,obj) {
+            $.ajax({
+                url: "UVServlet",
+                type: "POST",
+                data:{"uvid":data.id,"memthodname":"edituv","aid":data.aid,"uv":value},
+                dataType: "json",
+                success: function(data){
+
+                    if(data.state==1){
+
+                        layer.close(index);
+                        //同步更新表格和缓存对应的值
+                        obj.update({
+                            uv: value
+                        });
+                        layer.msg("修改成功", {icon: 6});
+                    }else{
+                        layer.msg("修改失败", {icon: 5});
+                    }
+                }
+
+            });
+        }
+
+
+    });
+
+    </script>
+
+}

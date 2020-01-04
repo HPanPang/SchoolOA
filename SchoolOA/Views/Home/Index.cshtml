@@ -1,0 +1,141 @@
+﻿@{
+    Layout = "_IndexLayout";
+    ViewData["Title"] = "Home Page";
+    var titles = ViewData["Title"];
+}
+<!-- Hero Section -->
+<section class="section section-hero">
+    <div class="hero-box">
+        <div class="container">
+            <div class="hero-text align-center">
+                <h1>西安建筑科技大学附属中学</h1>
+                <p>校内办公系统</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Box -->
+    <div class="container">
+        <div class="statistics-box">
+            <div class="statistics-item">
+                <span class="value">2,300</span>
+                <p class="title">近期会议安排</p>
+            </div>
+
+            <div class="statistics-item">
+                <span class="value">1,000</span>
+                <p class="title">奖惩情况</p>
+            </div>
+
+            <div class="statistics-item">
+                <span class="value">35,000</span>
+                <p class="title">学生人数</p>
+            </div>
+
+            <div class="statistics-item">
+                <span class="value">50,000</span>
+                <p class="title">教师人数</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Destinations Section -->
+<section class="section section-destination">
+    <!-- Title -->
+    <div class="section-title">
+        <div class="container">
+            <h1 class="title">近期会议安排</h1>
+        </div>
+    </div>
+    <div class="container">
+        <table class="layui-hide" id="conventionTable" align="center"></table>
+    </div>
+
+</section>
+
+<!-- Parallax Box -->
+<div class="parallax-box">
+    <div class="container">
+        <div class="text align-center">
+
+                <p id="hitokoto">:D 获取中...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Boats Section -->
+<section class="section section-boats">
+    <!-- Title -->
+    <div class="section-title">
+        <div class="container">
+            <h class="title">学生奖惩公告</h>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container">
+        @*<table class="layui-hide" id="awardPunishTable" align="center"></table>*@
+        <table class="layui-hide" id="awardPunishTable" lay-filter="demoEvent"></table>
+    </div>
+</section>
+
+@section Scripts{
+
+    <script src="~/layui-v2.5.5/layui/layui.js"></script>
+    <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+    <script>
+        layui.use('table', function () {
+            var table = layui.table;
+            table.render({
+                elem: '#conventionTable'
+                , url: '/Api/GetConventionApply'
+                , height: 475
+                , cols: [[
+                    { field: 'id', width: 80, title: '编号', sort: true }
+                    , { field: 'proposerName', width: 120, title: '申请人' }
+                    , { field: 'proposerSection', width: 140, title: '申请人所在部门' }
+                    , { field: 'proposerPhone', width: 140, title: '申请人联系方式' }
+                    , { field: 'startTime', width: 200, title: '开始时间', sort: true }
+                    , { field: 'endTime', width: 200, title: '结束时间' }
+                    , { field: 'place', width: 150, title: '会议地点' }
+                    , { field: 'currentState', title: '当前状态', Width: 150 }
+                ]]
+                , page: true
+                , skin: 'line' //行边框风格
+                , even: true //开启隔行背景
+            });
+        });
+    </script>
+    <script>
+        layui.use('table', function () {
+            var table = layui.table;
+            table.render({
+                elem: '#awardPunishTable'
+                , url: '/Api/AwardPunishList'
+                , cols: [[
+                    { field: 'id', width: "10%", title: '编号', sort: true, event: 'setSign', style: 'cursor: pointer;' }
+                    , { field: 'title', width: "30%", title: '标题' }
+                    , { field: 'applyTime', width: "20%", title: '申请时间', sort: true }
+                    , { field: 'checkTime', width: "20%", title: '审核时间' }
+                    , { field: 'state', width: "20%", title: '审核状态' }
+                ]]
+                , page: true
+                , skin: 'line' //行边框风格
+                , even: true //开启隔行背景
+            });
+
+            //监听单元格事件
+            table.on('tool(demoEvent)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'setSign') {
+                    layer.open({
+                        type: 2,
+                        area: ['500px', '570px'],
+                        title: '奖惩详细信息',
+                        content: '/Home/APDetail?id=' + data.id
+                    });
+                }
+            });
+        });
+    </script>
+}

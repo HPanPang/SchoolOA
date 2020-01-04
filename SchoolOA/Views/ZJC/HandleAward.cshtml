@@ -1,0 +1,140 @@
+﻿@{
+    Layout = "_EmptyLayout";
+    ViewData["Title"] = "处理奖励信息";
+}
+<form class="layui-form layui-form-pane" action="" lay-filter="ShowHandlePunish" style="margin: 15px 20px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" lay-verify="title" autocomplete="off" class="layui-input" disabled>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">学号</label>
+        <div class="layui-input-block">
+            <input type="text" name="sid" lay-verify="title" autocomplete="off" class="layui-input" disabled>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">年级</label>
+        <div class="layui-input-block">
+            <input type="text" name="grade" autocomplete="off" class="layui-input" disabled>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">班级</label>
+        <div class="layui-input-block">
+            <input type="text" name="studentClass" autocomplete="off" class="layui-input" disabled>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-block">
+            <input type="text" name="sex" autocomplete="off" class="layui-input" disabled>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">详细信息</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入内容" class="layui-textarea" name="content" disabled></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">具体措施</label>
+        <div class="layui-input-block">
+            <input type="text" name="desc" autocomplete="off" class="layui-input" disabled>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">审批结果</label>
+        <div class="layui-input-inline">
+            <select name="state">
+                <option value="">请选择审批结果</option>
+                <option value="等待审核" selected="">等待审核</option>
+                <option value="已通过">已通过</option>
+                <option value="已拒绝">已拒绝</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">审批意见</label>
+        <div class="layui-input-block">
+            <textarea placeholder="可不填" class="layui-textarea" name="issue"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <button class="layui-btn" lay-submit="" lay-filter="handleSubmit">确认</button>
+    </div>
+</form>
+
+@section Scripts{
+    <script src="~/layui-v2.5.5/layui/layui.js" charset="utf-8"></script>
+    <script src="~/js/jquery.js"></script>
+    <script>
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                , awardData = "";
+                //表单赋值
+                $.ajax({
+                url: '/Api/ShowAwardPunishList',
+                data: { id: @ViewData["HAID"] },
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    switch (data.code) {
+                        //奖励信息
+                        case 0:
+                            awardData = data;
+                            form.val('ShowHandlePunish', {
+                            "name": awardData.awardDetail.studentName
+                            , "sid": awardData.awardDetail.sid
+                            , "grade": awardData.awardDetail.grade
+                            , "studentClass": awardData.awardDetail.studentClass
+                            , "sex": awardData.awardDetail.sex
+                            , "content": awardData.awardDetail.content
+                            , "desc": awardData.awardDetail.awardContent
+                            , "state": awardData.awardDetail.state
+                            , "issue": awardData.awardDetail.issue
+                            });
+                            break;
+                        default:
+                            layer.alert("数据异常，你再试试呗", { icon: 3 });
+                    }
+                }
+                })
+                //监听提交
+                form.on('submit(handleSubmit)', function (data) {
+                    //提交修改数据
+                    $.ajax({
+                        url: '/Api/SubmitHandleAwardPunish',
+                        data: {
+                            id: @ViewData["HAID"],
+                            issue: data.field.issue,
+                            state: data.field.state
+                        },
+                        type: "POST",
+                        dataType: "JSON",
+                        success: function (data) {
+                            switch (data.code) {
+                                //奖励信息
+                                case 0:
+                                    layer.msg("审批成功，", { icon: 3 }, { time: 500 });
+                                    setTimeout(function(){
+                                        parent.layer.closeAll();
+                                    }, 500);
+                                    break;
+                                //惩罚信息
+                                case 1:
+                                    layer.alert("审批失败，",{ icon: 1 });
+                                    break;
+                                default:
+                                    layer.alert("数据异常，你再试试呗", { icon: 3 });
+                            }
+                        },
+                    })
+                    return false;
+                });
+        });
+    </script>
+}
