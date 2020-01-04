@@ -103,6 +103,24 @@
                             case 270:
                                 layer.alert("没有与之匹配的数据", { icon: 1 });
                                 break;
+                            case 280:
+                                //方法级渲染
+                                table.render({
+                                    elem: '#Teacher'
+                                    , url: '/Api/QueryAllTeacher'
+                                    , cols: [[
+                                        { field: 'teacherId', title: '教师工号', width: "15%", sort: true, fixed: true }
+                                        , { field: 'tname', title: '姓名', width: "10%" }
+                                        , { field: 'sex', title: '性别', width: "10%" }
+                                        , { field: 'profession', title: '职称', width: "10%" }
+                                        , { field: 'entryTime', title: '入职年份', width: "20%", sort: true }
+                                        , { field: 'phone', title: '联系方式', width: "20%" }
+                                        , { field: 'sectionName', title: '所属部门名称', width: "15%" }
+
+                                    ]]
+                                    , page: true
+                                });
+                                break;
                             default:
                                 layer.alert("数据异常，请重新尝试！", { icon: 1 });
                         }
@@ -162,6 +180,24 @@
                                 break;
                             case 270:
                                 layer.alert("没有与之匹配的数据", { icon: 1 });
+                                break;
+                            case 280:
+                                //方法级渲染
+                                table.render({
+                                    elem: '#Teacher'
+                                    , url: '/Api/QueryAllTeacher'
+                                    , cols: [[
+                                        { field: 'teacherId', title: '教师工号', width: "15%", sort: true, fixed: true }
+                                        , { field: 'tname', title: '姓名', width: "10%" }
+                                        , { field: 'sex', title: '性别', width: "10%" }
+                                        , { field: 'profession', title: '职称', width: "10%" }
+                                        , { field: 'entryTime', title: '入职年份', width: "20%", sort: true }
+                                        , { field: 'phone', title: '联系方式', width: "20%" }
+                                        , { field: 'sectionName', title: '所属部门名称', width: "15%" }
+
+                                    ]]
+                                    , page: true
+                                });
                                 break;
                             default:
                                 layer.alert("数据异常，请重新尝试！", { icon: 1 });
